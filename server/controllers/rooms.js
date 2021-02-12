@@ -2,16 +2,19 @@ var models = require('../models');
 
 module.exports = {
   get: function (req, res) {
-    models.messages.getAll()
+    models.rooms.getAll()
+
       .then((data) => {
-        res.json(data);
+        console.log(data[0].name);
+        res.json(data.map((obj) => (obj.name)));
       })
+
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
-  }, // a function which handles a get request for all messages
+  },
   post: function (req, res) {
-    models.messages.create(req.body)
+    models.rooms.create(req.body.roomName)
       .then(() => {
         res.status(201);
         res.end();
@@ -19,5 +22,6 @@ module.exports = {
       .catch((err) => {
         console.log(err);
       });
-  } // a function which handles posting a message to the database
+
+  }
 };
